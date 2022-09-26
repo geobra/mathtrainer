@@ -110,18 +110,29 @@ QVector<int> MainWindow::getCheckedNumbers()
 
 void MainWindow::goPressed()
 {
+    lastDisplayedStr_.clear();
     incrementTries();
 
     auto nbrs = getCheckedNumbers();
+
     quint32 nr = nbrs.at(QRandomGenerator::global()->generate() % nbrs.size());
-
+    if (ui->zehner->isChecked())
+    {
+        nr *= 10;
+    }
     quint32 rand = (QRandomGenerator::global()->generate() % 9) + 1;
+    quint32 result = rand * nr;
 
-    result_ = rand * nr;
-
-    lastDisplayedStr_.clear();
-
-    lastDisplayedStr_ = QString::number(rand) + " * " + QString::number(nr) + " = ";
+    if (ui->geteilt->isChecked())
+    {
+        lastDisplayedStr_ = QString::number(result) + " : " + QString::number(nr) + " = ";
+        result_ = rand;
+    }
+    else
+    {
+        lastDisplayedStr_ = QString::number(rand) + " * " + QString::number(nr) + " = ";
+        result_ = result;
+    }
 
     // display the text
     ui->textEdit->setText(lastDisplayedStr_);
