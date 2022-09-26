@@ -12,8 +12,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     // defaults
-    ui->lcdNumberTime->display(3);
-
     ui->check2->setChecked(true);
     ui->check3->setChecked(true);
     ui->check4->setChecked(true);
@@ -22,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->check7->setChecked(true);
     ui->check8->setChecked(true);
     ui->check9->setChecked(true);
+
+    ui->rbMult->setChecked(true);
 
     // make go button blue
     QPalette pal = ui->pushButtonGo->palette();
@@ -35,10 +35,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->pushButtonGo, SIGNAL(clicked()), this, SLOT(goPressed()));
     connect(ui->pushButtonTest, SIGNAL(clicked()), this, SLOT(testPressed()));
 
-    // time and chars buttons to display
-    connect(ui->pushButtonTimeAdd, SIGNAL(clicked()), this, SLOT(lcdTimeInc()));
-    connect(ui->pushButtonTimeSub, SIGNAL(clicked()), this, SLOT(lcdTimeDec()));
-
     // return on lineEdit
     connect(ui->lineEditTest, SIGNAL(returnPressed()), this, SLOT(testPressed()));
 
@@ -51,24 +47,6 @@ void MainWindow::lcdCharInc()
 
 void MainWindow::lcdCharDec()
 {
-}
-
-void MainWindow::lcdTimeInc()
-{
-    auto value = ui->lcdNumberTime->value();
-    if (value < 20)
-    {
-        ui->lcdNumberTime->display(value + 1);
-    }
-}
-
-void MainWindow::lcdTimeDec()
-{
-    auto value = ui->lcdNumberTime->value();
-    if (value > 1)
-    {
-        ui->lcdNumberTime->display(value - 1);
-    }
 }
 
 QVector<int> MainWindow::getCheckedNumbers()
@@ -116,14 +94,34 @@ void MainWindow::goPressed()
     auto nbrs = getCheckedNumbers();
 
     quint32 nr = nbrs.at(QRandomGenerator::global()->generate() % nbrs.size());
+    quint32 rand = (QRandomGenerator::global()->generate() % 9) + 1;
     if (ui->zehner->isChecked())
     {
-        nr *= 10;
+        if (QRandomGenerator::global()->generate() % 2 == 0)
+        {
+            nr *= 10;
+        }
+        else
+        {
+            rand *= 10;
+        }
     }
-    quint32 rand = (QRandomGenerator::global()->generate() % 9) + 1;
     quint32 result = rand * nr;
 
-    if (ui->geteilt->isChecked())
+    bool div{true};
+    if (ui->rbMult->isChecked() == true)
+    {
+        div = false;
+    }
+    else if (ui->rbMixed->isChecked() == true)
+    {
+        if (QRandomGenerator::global()->generate() % 2 == 0)
+        {
+            div = false;
+        }
+    }
+
+    if (div)
     {
         lastDisplayedStr_ = QString::number(result) + " : " + QString::number(nr) + " = ";
         result_ = rand;
