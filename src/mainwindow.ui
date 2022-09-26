@@ -241,24 +241,11 @@
          <property name="title">
           <string/>
          </property>
-         <widget class="QCheckBox" name="geteilt">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>90</width>
-            <height>23</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Geteilt</string>
-          </property>
-         </widget>
          <widget class="QCheckBox" name="zehner">
           <property name="geometry">
            <rect>
-            <x>0</x>
-            <y>20</y>
+            <x>10</x>
+            <y>10</y>
             <width>141</width>
             <height>23</height>
            </rect>
@@ -277,7 +264,7 @@
          <widget class="QRadioButton" name="rbMult">
           <property name="geometry">
            <rect>
-            <x>0</x>
+            <x>20</x>
             <y>10</y>
             <width>106</width>
             <height>23</height>
@@ -290,7 +277,7 @@
          <widget class="QRadioButton" name="rbDivide">
           <property name="geometry">
            <rect>
-            <x>70</x>
+            <x>130</x>
             <y>10</y>
             <width>106</width>
             <height>23</height>
@@ -303,7 +290,7 @@
          <widget class="QRadioButton" name="rbMixed">
           <property name="geometry">
            <rect>
-            <x>150</x>
+            <x>270</x>
             <y>10</y>
             <width>106</width>
             <height>23</height>
