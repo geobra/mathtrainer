@@ -41,14 +41,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->lineEditTest->setFocus();
 }
 
-void MainWindow::lcdCharInc()
-{
-}
-
-void MainWindow::lcdCharDec()
-{
-}
-
 QVector<int> MainWindow::getCheckedNumbers()
 {
     QVector<int> nbrs{};
@@ -163,11 +155,7 @@ void MainWindow::testPressed()
         else
         {
             incrementFailure();
-            //timeout = 2000;
-
             setInputTextColor(1);
-            //ui->textEdit->setText(lastDisplayedStr_ + " (" + enteredText + ")");
-            //ui->textEdit->setAlignment(Qt::AlignCenter);
         }
 
         QTimer *timer = new QTimer(this);
@@ -176,7 +164,6 @@ void MainWindow::testPressed()
 
         connect(timer, &QTimer::timeout, [=]() {
           this->setInputTextColor(2);
-          //ui->textEdit->clear();
           ui->lineEditTest->setDisabled(false);
           ui->lineEditTest->setFocus();
           timer->deleteLater();
@@ -221,23 +208,6 @@ void MainWindow::incrementFailure()
     auto tries = ui->lcdNumberWrong->value();
     tries++;
     ui->lcdNumberWrong->display(tries);
-}
-
-
-QChar MainWindow::getRandomSymbol()
-{
-    QString symbols = {"!#$%&()+-/<>=?[]{}@*§\"\\~.,;_|°^'"};
-    QChar c = symbols.at(QRandomGenerator::global()->generate() % symbols.size());
-
-    return c;
-}
-
-QChar MainWindow::getRandomChar()
-{
-    int diff = 'Z'-'A';
-    char c = 'A'+(QRandomGenerator::global()->generate() % diff);
-
-    return c;
 }
 
 MainWindow::~MainWindow()

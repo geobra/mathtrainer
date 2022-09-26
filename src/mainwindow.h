@@ -16,8 +16,6 @@ public:
     ~MainWindow();
 
 private:
-    QChar getRandomChar();
-    QChar getRandomSymbol();
     void incrementTries();
     void incrementCorrect();
     void incrementFailure();
@@ -30,9 +28,6 @@ private:
     quint32 result_{0};
 
 private slots:
-    void lcdCharInc();
-    void lcdCharDec();
-
     void goPressed();
     void testPressed();
 };
