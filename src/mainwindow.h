@@ -26,6 +26,7 @@ private:
     Ui::MainWindow *ui;
 
     quint32 result_{0};
+    int lastColor_{0};
 
 private slots:
     void goPressed();

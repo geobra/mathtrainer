@@ -23,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->rbMult->setChecked(true);
 
+    ui->rb_1->setChecked(true);
+
     // make go button blue
     QPalette pal = ui->pushButtonGo->palette();
     pal.setColor(QPalette::Button, QColor(Qt::blue));
@@ -86,8 +88,18 @@ void MainWindow::goPressed()
     auto nbrs = getCheckedNumbers();
 
     quint32 nr = nbrs.at(QRandomGenerator::global()->generate() % nbrs.size());
-    quint32 rand = (QRandomGenerator::global()->generate() % 9) + 1;
-    if (ui->zehner->isChecked())
+    quint32 rand = (QRandomGenerator::global()->generate() % 8) + 2; // 2 to 10 (8+2)
+
+    bool do_multi_ten{false};
+    quint32 multi_ten_rand = (QRandomGenerator::global()->generate() % 2);
+    if (ui->rb_mixed->isChecked() && (multi_ten_rand == 0))
+    {
+        do_multi_ten = true;
+    }
+
+    qDebug() << "mulit rand: " << multi_ten_rand;
+
+    if (ui->rb_10->isChecked() || do_multi_ten)
     {
         if (QRandomGenerator::global()->generate() % 2 == 0)
         {
@@ -173,20 +185,43 @@ void MainWindow::testPressed()
     }
 }
 
-void MainWindow::setInputTextColor(int color) // 0: green, 1: orange, 2: white
+void MainWindow::setInputTextColor(int color) // 0: green, 1: red, 2: white
 {
     // display a colored background for a short period of time
     Qt::GlobalColor targetColor = Qt::green;
-    if (color == 1)
+    if (color == 0)
+    {
+        quint32 nr = QRandomGenerator::global()->generate() % 200;
+        QString img = QString::number(nr) + ".jpeg";
+        ui->textEdit->setHtml("<center><img src=\"" + img + "\"/></center>");
+    }
+    else if (color == 1)
+    {
         targetColor = Qt::red;
+        //ui->textEdit->clear();
+        //ui->textEdit->setText("");
+    }
     else if (color == 2)
+    {
         targetColor = Qt::white;
+        //ui->textEdit->clear();
+        //if (lastColor_ == 1) // red
+        {
+            //ui->textEdit->clear();
+            //ui->textEdit->setText(lastDisplayedStr_);
+        }
+        //else
+        //    ui->textEdit->clear();
+    }
+
 
     QPalette pal = ui->textEdit->palette();
     pal.setColor(QPalette::Base, QColor(targetColor));
     ui->textEdit->setAutoFillBackground(true);
     ui->textEdit->setPalette(pal);
     ui->textEdit->update();
+
+    lastColor_ = color;
 }
 
 void MainWindow::incrementTries()
